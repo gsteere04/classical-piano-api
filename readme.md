@@ -96,8 +96,7 @@ Example body:
 
 Updates a composer if they exist, otherwise they are created
 
--   **Query parameters**:
-
+-   **Path parameters**:
     -   `composer_id` (int) - ID of the composer
 
 -   **Body**:
@@ -120,8 +119,7 @@ Updates a composer if they exist, otherwise they are created
 
 Updates a piece if it exists, otherwise it is created
 
--   **Query parameters**:
-
+-   **Path parameters**:
     -   `piece_name` (string) - Name of the piece
 
 -   **Body**:
@@ -145,12 +143,12 @@ Example body:
 
 Deletes a composer
 
--   **Query parameters**:
+-   **Path parameters**:
     -   `composer_id` (int) - ID of the composer
 
 ### DELETE /pieces/{piece_name}
 
 Deletes a piece
 
--   **Query parameters**:
+-   **Path parameters**:
     -   `piece_name` (string) - Name of the piece
