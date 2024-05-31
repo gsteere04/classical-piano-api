@@ -17,22 +17,23 @@ def get_next_composer_id() -> int:
     return max(composer["composer_id"] for composer in composers_list) + 1
 
 app = FastAPI()
-
+#returns all composers in sorted order by id
 @app.get("/")
 async def get_composers():
     sorted_composers = sorted(composers_list, key=lambda x: x["composer_id"])
     return sorted_composers
+
 #adds a composer to the list.  also checks for any gaps in the id numbers to ensure consistency.
 @app.post("/composers", status_code=status.HTTP_201_CREATED)
 async def create_composer(composer: Composer): 
     existing_ids = {composer["composer_id"] for composer in composers_list}
     
-    # Find the lowest available ID
+    #finds the lowest id number
     new_composer_id = 1
     while new_composer_id in existing_ids:
         new_composer_id += 1
 
-    # Add the new composer with the lowest available ID
+    #adds in the composer using the lowest available id number
     composer_data = composer.model_dump()
     composer_data["composer_id"] = new_composer_id
     composers_list.append(composer_data)
