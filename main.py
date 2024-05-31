@@ -1,5 +1,5 @@
 import json
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Query
 from models import Composer, Piece
 from typing import Optional
 
@@ -18,7 +18,7 @@ def get_next_composer_id() -> int:
 
 app = FastAPI()
 #returns all composers in sorted order by id
-@app.get("/")
+@app.get("/composers")
 async def get_composers():
     sorted_composers = sorted(composers_list, key=lambda x: x["composer_id"])
     return sorted_composers
@@ -66,3 +66,24 @@ async def delete_composer(composer_id: Optional[int]):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Composer not found")
     else:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="composer_id is required for removing a composer")
+    
+@app.get("/pieces")
+async def get_pieces(composer_id: int = Query(None, gt=0)):
+    if composer_id is not None:
+        filtered_pieces = [piece for piece in piece_list if piece["composer_id"] == composer_id]
+        return filtered_pieces
+    else:
+        return piece_list
+    
+@app.post("/pieces")
+async def create_piece(piece: Piece):
+    composer_exist = any(composer["composer_id"] == piece.composer_id for composer in composers_list)
+    if composer_exist:
+        piece_list.append(piece.model_dump())
+        return {"message":"Piece added successfully"}
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Composer not found")
+    
+@app.put("/pieces/{piece_name}")
+async def update_piece(piece_name: str, updated_piece: Piece):
+    pass
