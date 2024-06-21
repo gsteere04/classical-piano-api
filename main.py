@@ -84,6 +84,15 @@ async def create_piece(piece: Piece):
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Composer not found")
     
-@app.put("/pieces/{piece_name}")
-async def update_piece(piece_name: str, updated_piece: Piece):
-    pass
+#@app.put("/pieces/{piece_name}")
+#async def update_piece(piece_name: str, updated_piece: Piece):
+#        for i, composer in enumerate(composers_list):
+#            if piece["name"] == composer_id:
+#                updated_composer_data["composer_id"] = composer_id
+#                composers_list[i] = updated_composer_data
+#                return updated_composer
+#        return {"message":"Composer not found"}, 404
+#    new_composer_id = get_next_composer_id()
+#    updated_composer_data["composer_id"] = new_composer_id
+#    composers_list.append(updated_composer_data)
+#    return {"message": "Composer created successfully", "composer_id": new_composer_id}
